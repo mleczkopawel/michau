@@ -1,0 +1,113 @@
+<div class="row" style="padding-top: 50px">
+    <div class="col-sm-10">
+        <h2>Obszary</h2>
+    </div>
+    <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Dodaj obszar</button>
+    <div class="plants-list">
+        <table class='table table-hover'>
+            <thead>
+            <tr>
+                <th>Nazwa obszaru</th>
+                <th>Nazwa powierzchni</th>
+                <th>Nazwa rośliny</th>
+                <th>Nazwa nawozu</th>
+                <th>Rozmiar obszaru</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($this->areas as $area): ?>
+                <tr>
+                    <td><?php echo $area['aname']; ?></td>
+                    <td><?php echo $area['sname']; ?></td>
+                    <td><?php echo $area['pname']; ?></td>
+                    <td><?php echo $area['fname']; ?></td>
+                    <td><?php echo $area['size']; ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" style="width: 75%" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Dodaj obszar</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group js-selects">
+                        <label for='plants' class='col-sm-2'>Wybierz roślinę:</label>
+                        <div class='col-sm-10'>
+                            <select class='form-control' id='plants'>
+                                <option value='0'>Wybierz</option>
+                                <?php if ($this->plants): ?>
+                                    <?php foreach ($this->plants as $plant): ?>
+                                        <option value=<?php echo $plant->getId(); ?>><?php echo $plant->getName(); ?></option>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </select>
+                        </div>
+                        <label for='surfaces' class='col-sm-2'>Wybierz powierzchnię:</label>
+                        <div class='col-sm-10'>
+                            <select class='form-control' id='surfaces'>
+                                <option value='0'>Wybierz</option>
+                                <?php if ($this->surfaces): ?>
+                                    <?php foreach ($this->surfaces as $surface): ?>
+                                        <option value=<?php echo $surface->getId(); ?>><?php echo $surface->getName(); ?></option>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="name">Nazwa:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name" placeholder="Wpisz nazwę obszaru">
+                        </div>
+                        <label class="control-label col-sm-2" for="size">Rozmiar:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="size" placeholder="Wpisz rozmiar obszaru">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                <button type="button" class="btn btn-primary disabled js-save">Zapisz zmiany</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#name').on('blur', function () {
+        $('.js-save').removeClass('disabled').on('click', function (e) {
+            if ($('#plants').val() != '0' && $('#surfaces').val() != '0') {
+                $.ajax({
+                    url: '<?php echo $this->url('save', array('option' => 'areas')); ?>',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        name: $('#name').val(),
+                        plant: $('#plants').val(),
+                        surface: $('#surfaces').val(),
+                        size: $('#size').val()
+                    },
+                    success: function (response) {
+                        if (response.code == 1) {
+                            location.reload();
+                        } else {
+                            $.toaster({message: 'Nie udało się zapisać obszaru', title: 'Błąd!', priority: 'danger'});
+                            $('#myModal').modal('hide');
+                        }
+                    }
+                });
+            } else {
+                $('.modal-footer').append('<h4 class="pull-left" style="color: red">Wybierz roślinę i powierzchnię</h4>');
+            }
+            e.preventDefault();
+            return false;
+        });
+    });
+</script>

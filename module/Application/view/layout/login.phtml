@@ -1,0 +1,60 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="pl_PL">
+<head>
+	<meta charset="utf-8">
+	<?php echo $this->headTitle('Laboratorium')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+	<?php echo $this->headMeta()
+		->appendName('viewport', 'width=device-width, initial-scale=1.0')
+		->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+	?>
+
+	<!-- Le styles -->
+	<?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+		->prependStylesheet($this->basePath('css/bootstrap.min.css'))
+		->prependStylesheet($this->basePath('css/bootstrap-datepicker.css'))
+		->prependStylesheet($this->basePath('css/font-awesome/css/font-awesome.min.css'))
+		->prependStylesheet($this->basePath('css/sb-admin.css')); ?>
+
+	<!-- Scripts -->
+	<?php echo $this->headScript()
+		->appendFile($this->basePath('/js/jquery.js'))
+		->appendFile($this->basePath('/js/toaster.js'))
+		->appendFile($this->basePath('/js/bootstrap.min.js'))
+		->appendFile($this->basePath('/js/bootstrap-datepicker.js')); ?>
+</head>
+<body>
+<body>
+<div id="wrapper">
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="<?php echo $this->url('app'); ?>">Strona Główna</a>
+		</div>
+		<!--        <ul class="nav navbar-right top-nav">-->
+		<!--            <li class="dropdown">-->
+		<!--                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>aaaaaaaaa<b class="caret"></b></a>-->
+		<!--                <ul class="dropdown-menu">-->
+		<!--                    <li>-->
+		<!--                        <a href="#" class="js-logout"><i class="fa fa-fw fa-power-off"></i> Wyloguj</a href="#">-->
+		<!--                    </li>-->
+		<!--                </ul>-->
+		<!--            </li>-->
+		<!--        </ul>-->
+		<div class="collapse navbar-collapse navbar-ex1-collapse">
+		</div>
+	</nav>
+	<div id="page-wrapper">
+		<div class="container-fluid">
+			<?php echo $this->content; ?>
+		</div>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<?php
+    $areas = $this->areas;
+    $fertilizers = $this->fertilizers;
+    $measurments = $this->measurments;
+    $plants = $this->plants;
+    $surfaces = $this->surfaces;
+?>
+<div class="row" style="padding-top: 50px">
+    <div class="col-sm-12">
+        <h2>Strona Główna</h2>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i> Obszary
+            </div>
+            <div class="panel-body js-plants">
+                <table class='table table-hover'>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nazwa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($areas as $area): ?>
+                            <tr><td><?php echo $area->getId(); ?></td><td><?php echo $area->getName(); ?></td></tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <i class="fa fa-fw fa-table"></i> Nawozy
+            </div>
+            <div class="panel-body js-fertilizers">
+                <table class='table table-hover'>
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nazwa</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($fertilizers as $fertilizer): ?>
+                        <tr><td><?php echo $fertilizer->getId(); ?></td><td><?php echo $fertilizer->getName(); ?></td></tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <i class="fa fa-edit fa-fw"></i> Doświdczenia
+            </div>
+            <div class="panel-body js-surfaces">
+                <table class='table table-hover'>
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nazwa</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($measurments as $measurment): ?>
+                        <tr><td><?php echo $measurment->getId(); ?></td><td><?php echo $measurment->getMeasureName(); ?></td></tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <i class="fa fa-desktop fa-fw"></i> Rośliny
+            </div>
+            <div class="panel-body js-areas">
+                <table class='table table-hover'>
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nazwa</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($plants as $plant): ?>
+                        <tr><td><?php echo $plant->getId(); ?></td><td><?php echo $plant->getName(); ?></td></tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <i class="fa fa-wrench fa-fw"></i> Powierzchnie
+            </div>
+            <div class="panel-body js-measurments">
+                <table class='table table-hover'>
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nazwa</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($surfaces as $surface): ?>
+                        <tr><td><?php echo $surface->getId(); ?></td><td><?php echo $surface->getName(); ?></td></tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

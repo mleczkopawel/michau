@@ -1,0 +1,9 @@
+.idea/
+data/
+vendor/
+avatar_files/
+docker-compose.yml
+docker
+commands.txt
+composer.lock
+README.md

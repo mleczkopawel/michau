@@ -1,0 +1,179 @@
+<div class="row" style="padding-top: 50px">
+    <div class="col-sm-10">
+        <h2>Doświadczenia</h2>
+    </div>
+    <?php if ($this->identity()->getRole() == 'nadzorca'): ?>
+    <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Dodaj doświadczenie</button>
+    <?php else: ?>
+    <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModalExp"><i class="fa fa-plus"></i> Dodaj pomiar</button>
+    <?php endif; ?>
+    <div class="plants-list">
+        <table class='table table-hover'>
+            <thead>
+                <tr>
+                    <th>Nazwa doświadczenia</th>
+                    <th>Nazwa obszaru</th>
+                    <th>Nazwa powierzchni</th>
+                    <th>Nazwa rośliny</th>
+                    <th>Nazwa nawozu</th>
+                    <th>Rozmiar obszaru</th>
+                    <th>Liczba roślin</th>
+                    <th>Średnia wielkość roślin</th>
+                    <th>Data dodania doświadczenia</th>
+                    <th>Data rozpoczęcia pomiarów</th>
+                    <th>Data zakończenia pomiarów</th>
+                    <th>Data ostatniego pomiaru</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php echo $this->measurments; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" style="width: 75%" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Dodaj doświadczenie</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group js-selects">
+                        <label for='areas' class='col-sm-2'>Wybierz obszar:</label>
+                        <div class='col-sm-10'>
+                            <select class='form-control' id='areas'>
+                                <option value='0'>Wybierz</option>
+                                <?php if ($this->areas): ?>
+                                    <?php foreach ($this->areas as $area): ?>
+                                        <option value=<?php echo $area->getId(); ?>><?php echo $area->getName(); ?></option>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="name">Nazwa:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name" placeholder="Wpisz nazwę doświadczenia">
+                        </div>
+                        <label class="control-label col-sm-2" for="date">Podaj datę zakończenia: </label>
+                        <div class="input-group date pull-right col-sm-10" style="margin: 1% auto; width: 82.3%" data-provide="datepicker">
+                            <input type="text" class="form-control" name="date" id="date">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                <button type="button" class="btn btn-primary disabled js-save">Zapisz zmiany</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModalExp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" style="width: 75%" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Dodaj pomiar</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group js-selects-measurments">
+                        <label for='measurments' class='col-sm-2'>Wybierz pomiar:</label>
+                        <div class='col-sm-10'>
+                            <select class='form-control' id='measurments'>
+                                <option value='0'>Wybierz</option>
+                                <?php if ($this->measurmentsSelects): ?>
+                                    <?php foreach ($this->measurmentsSelects as $select): ?>
+                                        <option value=<?php echo $select->getId(); ?>><?php echo $select->getMeasureName(); ?></option>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="name">Liczba roślin:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="count" placeholder="Podaj liczbę roślin">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="name">Średnia wielkość rośliny:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="size" placeholder="Podaj średnią wielkość rośliny">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                <button type="button" class="btn btn-primary disabled js-save">Zapisz zmiany</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.datepicker').datepicker({
+        format: "mm-dd-yyyy"
+    });
+    $('#name').on('blur', function () {
+        $('.js-save').removeClass('disabled').on('click', function (e) {
+            if ($('#plants').val() != '0' && $('#surfaces').val() != '0') {
+                $.ajax({
+                    url: '<?php echo $this->url('save', array('option' => 'measure')); ?>',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        name: $('#name').val(),
+                        area: $('#areas').val(),
+                        date: $('#date').val()
+                    },
+                    success: function (response) {
+                        if (response.code == 1) {
+                            location.reload();
+                        } else {
+                            $.toaster({message: 'Nie udało się zapisać doświadczenia', title: 'Błąd!', priority: 'danger'});
+                            $('#myModal').modal('hide');
+                        }
+                    }
+                });
+            } else {
+                $('.modal-footer').append('<h4 class="pull-left" style="color: red">Wybierz roślinę i powierzchnię</h4>');
+            }
+            e.preventDefault();
+            return false;
+        });
+    });
+    $('#count').on('blur', function () {
+        $('.js-save').removeClass('disabled').on('click', function (e) {
+            if ($('#size').val() != '' || $('#measurments').val() != '0') {
+                $.ajax({
+                    url: '<?php echo $this->url('save', array('option' => 'experience')); ?>',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        measurment: $('#measurments').val(),
+                        count: $('#count').val(),
+                        size: $('#size').val()
+                    },
+                    success: function (response) {
+                        if (response.code == 1) {
+                            location.reload();
+                        } else {
+                            $.toaster({message: 'Nie udało się zapisać doświadczenia', title: 'Błąd!', priority: 'danger'});
+                            $('#myModalExp').modal('hide');
+                        }
+                    }
+                });
+            } else {
+                $('.modal-footer').append('<h4 class="pull-left" style="color: red">Wybierz pomiar, wpisz liczbę i średnią wielkość</h4>');
+            }
+        })
+    })
+</script>

@@ -1,0 +1,19 @@
+<div class="row" style="padding-top: 400px">
+<?php
+$form = $this->form;
+$form->prepare();
+echo $this->form()->openTag($form);
+
+$user = $form->get('name');
+echo $this->formLabel($user);
+echo $this->formInput($user);
+
+$password = $form->get('password');
+echo $this->formLabel($password);
+echo $this->formInput($password);
+
+echo $this->formSubmit($form->get('createSubmit'));
+
+echo $this->form()->closeTag();
+?>
+</div>
