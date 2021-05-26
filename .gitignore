@@ -1,5 +1,6 @@
 .idea/
-data/
+data/*
+!data/DoctrineORMModule/Proxy/.gitkeep
 vendor/
 avatar_files/
 docker-compose.yml
